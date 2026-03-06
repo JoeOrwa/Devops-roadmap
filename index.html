@@ -414,14 +414,21 @@ const certifications = [
 function Roadmap() {
   const [activePhase, setActivePhase] = React.useState(0);
   const [expandedWeek, setExpandedWeek] = React.useState(null);
-  const [checkedTasks, setCheckedTasks] = React.useState({});
+  const [checkedTasks, setCheckedTasks] = React.useState(() => {
+  const saved = localStorage.getItem('devops-roadmap-progress');
+  return saved ? JSON.parse(saved) : {};
+});
 
   const phase = phases[activePhase];
 
   const toggleTask = (weekIdx, dayIdx) => {
-    const key = `${activePhase}-${weekIdx}-${dayIdx}`;
-    setCheckedTasks(prev => ({ ...prev, [key]: !prev[key] }));
-  };
+  const key = `${activePhase}-${weekIdx}-${dayIdx}`;
+  setCheckedTasks(prev => {
+    const updated = { ...prev, [key]: !prev[key] };
+    localStorage.setItem('devops-roadmap-progress', JSON.stringify(updated));
+    return updated;
+  });
+};
 
   const getPhaseProgress = (phaseIdx) => {
     const p = phases[phaseIdx];
