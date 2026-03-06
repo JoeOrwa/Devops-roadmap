@@ -414,10 +414,42 @@ const certifications = [
 function Roadmap() {
   const [activePhase, setActivePhase] = React.useState(0);
   const [expandedWeek, setExpandedWeek] = React.useState(null);
-  const [checkedTasks, setCheckedTasks] = React.useState(() => {
-  const saved = localStorage.getItem('devops-roadmap-progress');
-  return saved ? JSON.parse(saved) : {};
-});
+  const [checkedTasks, setCheckedTasks] = React.useState({});
+const [token, setToken] = React.useState(() => localStorage.getItem('gh-token') || '');
+const [tokenSaved, setTokenSaved] = React.useState(() => !!localStorage.getItem('gh-token'));
+const REPO_OWNER = 'JoeOrwa';
+const REPO_NAME = 'Devops-roadmap';
+const FILE_PATH = 'progress.json';
+
+React.useEffect(() => {
+  if (!token) return;
+  fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
+    headers: { Authorization: `token ${token}` }
+  })
+  .then(r => r.json())
+  .then(data => {
+    const content = JSON.parse(atob(data.content));
+    setCheckedTasks(content);
+  })
+  .catch(() => {});
+}, [token]);
+
+const saveToGitHub = async (updated) => {
+  if (!token) return;
+  const getRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
+    headers: { Authorization: `token ${token}` }
+  });
+  const getData = await getRes.json();
+  await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
+    method: 'PUT',
+    headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      message: 'Update progress',
+      content: btoa(JSON.stringify(updated)),
+      sha: getData.sha
+    })
+  });
+};
 
   const phase = phases[activePhase];
 
@@ -425,9 +457,14 @@ function Roadmap() {
   const key = `${activePhase}-${weekIdx}-${dayIdx}`;
   setCheckedTasks(prev => {
     const updated = { ...prev, [key]: !prev[key] };
-    localStorage.setItem('devops-roadmap-progress', JSON.stringify(updated));
+    saveToGitHub(updated);
     return updated;
   });
+};
+
+const handleSaveToken = () => {
+  localStorage.setItem('gh-token', token);
+  setTokenSaved(true);
 };
 
   const getPhaseProgress = (phaseIdx) => {
@@ -567,8 +604,31 @@ function Roadmap() {
             }} />
           </div>
           <div style={{ fontSize: "10px", color: "#475569", marginTop: "4px" }}>
-            {getPhaseProgress(activePhase)}% complete — tick tasks below as you finish them
-          </div>
+  {getPhaseProgress(activePhase)}% complete — tick tasks below as you finish them
+</div>
+{!tokenSaved && (
+  <div style={{ marginTop: "16px", background: "#0f172a", border: "1px solid #334155", borderRadius: "6px", padding: "16px", display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+    <div style={{ fontSize: "12px", color: "#64748b", flex: "1 1 200px" }}>🔑 Enter your GitHub token to sync progress across devices:</div>
+    <input
+      type="password"
+      value={token}
+      onChange={e => setToken(e.target.value)}
+      placeholder="ghp_xxxxxxxxxxxx"
+      style={{ flex: "1 1 200px", background: "#1e293b", border: "1px solid #334155", borderRadius: "4px", padding: "8px 12px", color: "#e2e8f0", fontFamily: "'Courier New', monospace", fontSize: "12px" }}
+    />
+    <button
+      onClick={handleSaveToken}
+      style={{ background: "#00ff8820", border: "1px solid #00ff88", color: "#00ff88", padding: "8px 16px", borderRadius: "4px", cursor: "pointer", fontFamily: "'Courier New', monospace", fontSize: "12px" }}
+    >
+      Save Token
+    </button>
+  </div>
+)}
+{tokenSaved && (
+  <div style={{ marginTop: "8px", fontSize: "11px", color: "#00ff88" }}>
+    ✅ Syncing to GitHub — progress saved across all your devices
+  </div>
+)}
         </div>
 
         {/* Weeks */}
