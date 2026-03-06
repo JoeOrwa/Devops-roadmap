@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Warren's Cloud/DevOps Roadmap</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0a0f; }
+    ::-webkit-scrollbar { height: 4px; width: 4px; }
+    ::-webkit-scrollbar-track { background: #0a0a0f; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 2px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+const phases = [
+  {
+    id: 1,
+    title: "FOUNDATIONS",
+    duration: "Month 1",
+    color: "#00ff88",
+    icon: "⬡",
+    tagline: "Build the base everything else stands on",
+    weeks: [
+      {
+        week: "Week 1",
+        theme: "Linux & Command Line",
+        daily: [
+          { day: "Mon", task: "Install Ubuntu (WSL2 or VM). Learn: ls, cd, mkdir, rm, cp, mv, pwd" },
+          { day: "Tue", task: "File permissions: chmod, chown, sudo. Practice creating/modifying files" },
+          { day: "Wed", task: "Text editing with vim/nano. Grep, find, cat, head, tail commands" },
+          { day: "Thu", task: "Process management: ps, kill, top, htop. Background jobs with & and nohup" },
+          { day: "Fri", task: "Shell scripting basics: variables, if/else, loops. Write your first .sh script" },
+          { day: "Sat", task: "Practice: Write a script that backs up a folder automatically" },
+          { day: "Sun", task: "Review + Linux cheatsheet. Watch 1 YouTube video on Linux for DevOps" },
+        ],
+      },
+      {
+        week: "Week 2",
+        theme: "Networking Fundamentals",
+        daily: [
+          { day: "Mon", task: "OSI model overview. Understand TCP/IP, UDP. What happens when you visit a website" },
+          { day: "Tue", task: "DNS: how it works, A records, CNAME. Practice nslookup and dig commands" },
+          { day: "Wed", task: "HTTP/HTTPS: methods (GET, POST, PUT, DELETE), status codes, headers" },
+          { day: "Thu", task: "Ports and firewalls. Learn: iptables basics, ufw. Open/close ports" },
+          { day: "Fri", task: "SSH: generate keys, ssh-keygen, copy-id. Set up passwordless SSH login" },
+          { day: "Sat", task: "Practice: Set up two VMs and SSH between them. Transfer files with SCP" },
+          { day: "Sun", task: "Review networking concepts. Draw a diagram of how a web request travels" },
+        ],
+      },
+      {
+        week: "Week 3",
+        theme: "Git & Version Control",
+        daily: [
+          { day: "Mon", task: "Git init, add, commit, status, log. Create your first local repo" },
+          { day: "Tue", task: "GitHub account setup. Push/pull to remote. git clone, fetch, pull, push" },
+          { day: "Wed", task: "Branching: git branch, checkout, merge. Understand merge conflicts" },
+          { day: "Thu", task: "Git rebase vs merge. Stash changes. .gitignore files" },
+          { day: "Fri", task: "Pull Requests workflow. Fork a repo, make changes, open a PR on GitHub" },
+          { day: "Sat", task: "Practice: Create a repo for your Java projects. Start committing regularly" },
+          { day: "Sun", task: "Review Git flow. Read about GitOps (the idea, not the tools yet)" },
+        ],
+      },
+      {
+        week: "Week 4",
+        theme: "Java + Cloud Mindset",
+        daily: [
+          { day: "Mon", task: "Spring Boot quickstart: create a basic REST API with one endpoint" },
+          { day: "Tue", task: "Build a simple Java API: GET /hello returns JSON. Test with Postman" },
+          { day: "Wed", task: "Add POST endpoint. Connect to an in-memory H2 database" },
+          { day: "Thu", task: "Learn about environment variables in Java. Externalize config with application.properties" },
+          { day: "Fri", task: "Package your app: mvn package or gradle build. Understand the .jar file" },
+          { day: "Sat", task: "Read: 12-Factor App methodology — this is how cloud-native apps are designed" },
+          { day: "Sun", task: "Review Month 1. List what you built. Set goals for Month 2" },
+        ],
+      },
+    ],
+    resources: ["Linux Journey (linuxjourney.com)", "Pro Git Book (free online)", "Spring Boot Quickstart (spring.io)", "The 12-Factor App (12factor.net)"],
+    milestone: "You can navigate Linux, write shell scripts, use Git daily, and have a running Java REST API",
+  },
+  {
+    id: 2,
+    title: "DOCKER & CONTAINERS",
+    duration: "Month 2",
+    color: "#0ea5e9",
+    icon: "◈",
+    tagline: "Package your Java app — run it anywhere",
+    weeks: [
+      {
+        week: "Week 5",
+        theme: "Docker Basics",
+        daily: [
+          { day: "Mon", task: "Install Docker Desktop. Run: docker run hello-world. Understand what happened" },
+          { day: "Tue", task: "docker pull, run, ps, stop, rm. Difference between images and containers" },
+          { day: "Wed", task: "docker exec -it: get inside a running container. Explore the file system" },
+          { day: "Thu", task: "Docker Hub: pull nginx, run it, visit localhost. Pull mysql image, run it" },
+          { day: "Fri", task: "Docker volumes: persist data. Mount a local folder into a container" },
+          { day: "Sat", task: "Docker networks: bridge, host, none. Connect two containers together" },
+          { day: "Sun", task: "Review: draw a diagram of containers, images, and the Docker daemon" },
+        ],
+      },
+      {
+        week: "Week 6",
+        theme: "Writing Dockerfiles",
+        daily: [
+          { day: "Mon", task: "Write your first Dockerfile for the Java Spring Boot app from Month 1" },
+          { day: "Tue", task: "Understand: FROM, RUN, COPY, WORKDIR, EXPOSE, CMD, ENTRYPOINT" },
+          { day: "Wed", task: "Multi-stage builds: build the jar in one stage, run it in another (smaller image)" },
+          { day: "Thu", task: "docker build -t myapp:v1. Tag versions properly. Push image to Docker Hub" },
+          { day: "Fri", task: "Best practices: .dockerignore, non-root users, minimal base images (alpine)" },
+          { day: "Sat", task: "Practice: Containerize 3 different things — your Java app, an nginx site, a Python script" },
+          { day: "Sun", task: "Review Dockerfile best practices. Read Docker security basics" },
+        ],
+      },
+      {
+        week: "Week 7",
+        theme: "Docker Compose",
+        daily: [
+          { day: "Mon", task: "Install Docker Compose. Write a docker-compose.yml for your Java app + MySQL" },
+          { day: "Tue", task: "docker-compose up, down, logs, ps. Understand services, networks, volumes in compose" },
+          { day: "Wed", task: "Environment variables in compose. Use .env files. Never hardcode secrets" },
+          { day: "Thu", task: "Health checks in compose. depends_on with condition: service_healthy" },
+          { day: "Fri", task: "Scale a service: docker-compose up --scale app=3. Understand load balancing concept" },
+          { day: "Sat", task: "Project: Full stack app — Java API + MySQL + nginx reverse proxy, all in compose" },
+          { day: "Sun", task: "Review compose. Read: when to use compose vs Kubernetes" },
+        ],
+      },
+      {
+        week: "Week 8",
+        theme: "Container Registry & Best Practices",
+        daily: [
+          { day: "Mon", task: "Create AWS ECR (Elastic Container Registry) account (free tier). Push your image there" },
+          { day: "Tue", task: "Image scanning: use Docker Scout or Trivy to scan for vulnerabilities" },
+          { day: "Wed", task: "Image tagging strategy: latest, semver (v1.0.0), git SHA tags" },
+          { day: "Thu", task: "Container logging: docker logs, log drivers. Understand stdout/stderr convention" },
+          { day: "Fri", task: "Container resource limits: --memory, --cpus. Why this matters in production" },
+          { day: "Sat", task: "Review everything Docker. Take the Docker practice quiz on Udemy/YouTube" },
+          { day: "Sun", task: "Review Month 2. You should now have 3+ Docker projects on GitHub" },
+        ],
+      },
+    ],
+    resources: ["Docker Official Docs (docs.docker.com)", "TechWorld with Nana — Docker Tutorial (YouTube)", "Play with Docker (labs.play-with-docker.com — free browser playground)"],
+    milestone: "Your Java app runs in a container. You can build, push, and run multi-container apps with Compose",
+  },
+  {
+    id: 3,
+    title: "AWS CLOUD",
+    duration: "Months 3–4",
+    color: "#f59e0b",
+    icon: "◎",
+    tagline: "Deploy to the real cloud — AWS free tier",
+    weeks: [
+      {
+        week: "Week 9–10",
+        theme: "AWS Core Services",
+        daily: [
+          { day: "Mon W9", task: "Create AWS free tier account. Explore the console. Set up billing alerts immediately" },
+          { day: "Tue W9", task: "IAM: create users, groups, roles, policies. NEVER use root account again after today" },
+          { day: "Wed W9", task: "EC2: launch your first t2.micro instance. SSH into it. Install Java on it" },
+          { day: "Thu W9", task: "EC2 security groups: open port 8080. Deploy your Java jar file. Access it from browser" },
+          { day: "Fri W9", task: "S3: create a bucket, upload files, set permissions, static website hosting" },
+          { day: "Mon W10", task: "VPC deep dive: subnets, route tables, internet gateways, NAT gateways" },
+          { day: "Wed W10", task: "RDS: launch a MySQL instance on RDS. Connect your Java app to it" },
+          { day: "Fri W10", task: "ELB: set up an Application Load Balancer in front of two EC2 instances" },
+        ],
+      },
+      {
+        week: "Week 11–12",
+        theme: "AWS Container Services",
+        daily: [
+          { day: "Mon W11", task: "ECS (Elastic Container Service): deploy your Docker container to ECS Fargate" },
+          { day: "Tue W11", task: "ECR: push your image to ECR, pull it in ECS task definition" },
+          { day: "Wed W11", task: "ECS services: auto-scaling, desired count, rolling deployments" },
+          { day: "Thu W11", task: "CloudWatch: logs, metrics, alarms. Set up a CPU alarm on your EC2" },
+          { day: "Fri W11", task: "Route53: register a domain (or use a free subdomain). Point it to your load balancer" },
+          { day: "Mon W12", task: "Lambda: write a serverless function. Trigger it with API Gateway" },
+          { day: "Wed W12", task: "SNS + SQS: message queues. Connect your Java app to SQS" },
+          { day: "Fri W12", task: "AWS CLI: install and configure. Do everything you did in console via CLI" },
+        ],
+      },
+      {
+        week: "Week 13–14",
+        theme: "AWS Cloud Practitioner Exam Prep",
+        daily: [
+          { day: "Mon W13", task: "Study: Cloud concepts, AWS global infrastructure, regions, AZs, edge locations" },
+          { day: "Tue W13", task: "Study: EC2 pricing models (on-demand, reserved, spot, savings plans)" },
+          { day: "Wed W13", task: "Study: S3 storage classes, lifecycle policies, versioning" },
+          { day: "Thu W13", task: "Study: Shared Responsibility Model — what AWS manages vs what YOU manage" },
+          { day: "Fri W13", task: "Study: Well-Architected Framework: 6 pillars (reliability, security, cost, etc.)" },
+          { day: "Mon W14", task: "Practice exam 1 — Stephane Maarek's Udemy course practice exams" },
+          { day: "Wed W14", task: "Review wrong answers. Focus on services you don't know well" },
+          { day: "Fri W14", task: "Practice exam 2. Score 80%+ consistently before booking the real exam" },
+        ],
+      },
+      {
+        week: "Week 15–16",
+        theme: "Terraform (Infrastructure as Code)",
+        daily: [
+          { day: "Mon W15", task: "Install Terraform. Understand: providers, resources, state files" },
+          { day: "Tue W15", task: "Write your first .tf file: provision an S3 bucket with Terraform" },
+          { day: "Wed W15", task: "Provision an EC2 instance with Terraform. terraform init, plan, apply, destroy" },
+          { day: "Thu W15", task: "Terraform variables, outputs, and modules. Organize code properly" },
+          { day: "Fri W15", task: "Remote state: store Terraform state in S3 backend. Why local state is dangerous" },
+          { day: "Mon W16", task: "Provision your full app infrastructure with Terraform: VPC, EC2, RDS, S3" },
+          { day: "Wed W16", task: "Terraform workspaces: dev vs prod environments" },
+          { day: "Fri W16", task: "Review. Push your Terraform code to GitHub. This is now your portfolio piece" },
+        ],
+      },
+    ],
+    resources: ["AWS Free Tier (aws.amazon.com/free)", "Stephane Maarek — AWS CCP Udemy course", "TechWorld with Nana — Terraform Tutorial", "AWS Well-Architected Framework (free PDF)"],
+    milestone: "AWS CCP certification earned. Java app running on ECS, infra provisioned with Terraform",
+  },
+  {
+    id: 4,
+    title: "KUBERNETES",
+    duration: "Months 5–6",
+    color: "#8b5cf6",
+    icon: "✦",
+    tagline: "Orchestrate containers at scale",
+    weeks: [
+      {
+        week: "Week 17–18",
+        theme: "Kubernetes Core Concepts",
+        daily: [
+          { day: "Mon W17", task: "Install minikube + kubectl locally. Start a cluster: minikube start" },
+          { day: "Tue W17", task: "Pods: kubectl run, get, describe, delete. Understand a Pod is the smallest unit" },
+          { day: "Wed W17", task: "Deployments: create a deployment for your Java app. kubectl get deployments" },
+          { day: "Thu W17", task: "ReplicaSets: scale your deployment to 3 replicas. Kill a pod — watch it restart" },
+          { day: "Fri W17", task: "Services: ClusterIP, NodePort, LoadBalancer. Expose your Java app externally" },
+          { day: "Mon W18", task: "ConfigMaps: externalize your app config. Mount as env vars or volume" },
+          { day: "Tue W18", task: "Secrets: store DB passwords properly. Base64 encoding. Sealed Secrets concept" },
+          { day: "Wed W18", task: "Namespaces: dev, staging, prod namespaces. ResourceQuotas per namespace" },
+          { day: "Thu W18", task: "kubectl logs, exec, port-forward. Debug a broken pod like a pro" },
+          { day: "Fri W18", task: "Write YAML for all of the above from scratch. No copy-paste — muscle memory" },
+        ],
+      },
+      {
+        week: "Week 19–20",
+        theme: "Advanced Kubernetes",
+        daily: [
+          { day: "Mon W19", task: "Ingress controllers: install nginx ingress. Route traffic to multiple services" },
+          { day: "Tue W19", task: "Persistent Volumes (PV) and PVCs: give your MySQL pod persistent storage" },
+          { day: "Wed W19", task: "StatefulSets: deploy MySQL as a StatefulSet. Understand why Deployments aren't enough" },
+          { day: "Thu W19", task: "Horizontal Pod Autoscaler (HPA): scale based on CPU. Load test with hey or k6" },
+          { day: "Fri W19", task: "Resource requests and limits: set CPU/memory on every container. Why this matters" },
+          { day: "Mon W20", task: "Liveness and Readiness probes: protect your app from bad deployments" },
+          { day: "Tue W20", task: "Rolling updates and rollbacks: kubectl rollout status, history, undo" },
+          { day: "Wed W20", task: "Helm: the package manager for K8s. Install a chart (e.g., prometheus stack)" },
+          { day: "Thu W20", task: "Write your own Helm chart for the Java app. values.yaml, templates/" },
+          { day: "Fri W20", task: "Deploy your full app stack to minikube using Helm. End-to-end test it" },
+        ],
+      },
+      {
+        week: "Week 21–22",
+        theme: "EKS — Kubernetes on AWS",
+        daily: [
+          { day: "Mon W21", task: "Create an EKS cluster with eksctl. Understand managed node groups" },
+          { day: "Tue W21", task: "Configure kubectl for EKS: aws eks update-kubeconfig" },
+          { day: "Wed W21", task: "Deploy your Java app to EKS. Use ECR as the container registry" },
+          { day: "Thu W21", task: "AWS Load Balancer Controller: expose your app with an AWS ALB via Ingress" },
+          { day: "Fri W21", task: "EBS/EFS storage classes for EKS persistent volumes" },
+          { day: "Mon W22", task: "IAM Roles for Service Accounts (IRSA): give pods AWS permissions securely" },
+          { day: "Wed W22", task: "Cluster Autoscaler: scale nodes automatically when pods can't be scheduled" },
+          { day: "Fri W22", task: "Begin CKA (Certified Kubernetes Administrator) exam prep — killer.sh" },
+        ],
+      },
+      {
+        week: "Week 23–24",
+        theme: "CKA Exam Prep",
+        daily: [
+          { day: "Mon W23", task: "CKA Domain 1: Cluster Architecture — kubeadm, etcd, control plane components" },
+          { day: "Tue W23", task: "CKA Domain 2: Workloads — Deployments, DaemonSets, Jobs, CronJobs" },
+          { day: "Wed W23", task: "CKA Domain 3: Services & Networking — CNI, DNS, NetworkPolicies" },
+          { day: "Thu W23", task: "CKA Domain 4: Storage — PV, PVC, StorageClasses" },
+          { day: "Fri W23", task: "CKA Domain 5: Troubleshooting — broken clusters, failing pods, node issues" },
+          { day: "Mon W24", task: "killer.sh mock exam 1 (2 hours, exam simulation). Review every wrong answer" },
+          { day: "Wed W24", task: "killer.sh mock exam 2. Aim for 85%+ before booking real exam" },
+          { day: "Fri W24", task: "Speed practice: you need to be FAST with kubectl. Time yourself on tasks" },
+        ],
+      },
+    ],
+    resources: ["Kubernetes Official Docs (kubernetes.io/docs)", "TechWorld with Nana — K8s Full Course (YouTube)", "killer.sh — CKA practice exams", "Mumshad Mannambeth CKA course (KodeKloud)"],
+    milestone: "CKA certification earned. Full Java app running on EKS with Helm, autoscaling, and monitoring",
+  },
+  {
+    id: 5,
+    title: "CI/CD PIPELINES",
+    duration: "Month 7",
+    color: "#ef4444",
+    icon: "⟳",
+    tagline: "Automate everything — code to production",
+    weeks: [
+      {
+        week: "Week 25–26",
+        theme: "GitHub Actions",
+        daily: [
+          { day: "Mon W25", task: "GitHub Actions basics: workflows, triggers (push, PR, schedule), jobs, steps" },
+          { day: "Tue W25", task: "Write a workflow: on push to main → run mvn test for your Java app" },
+          { day: "Wed W25", task: "Add Docker build step: build image and push to ECR on every merge to main" },
+          { day: "Thu W25", task: "Add deploy step: update EKS deployment after image push (kubectl set image)" },
+          { day: "Fri W25", task: "Environments and approvals: require manual approval before deploying to prod" },
+          { day: "Mon W26", task: "Secrets in GitHub Actions: store AWS keys, Docker credentials as encrypted secrets" },
+          { day: "Wed W26", task: "Matrix builds: test your Java app on Java 11, 17, 21 in parallel" },
+          { day: "Fri W26", task: "Full pipeline done: commit code → tests → build → push image → deploy to EKS" },
+        ],
+      },
+      {
+        week: "Week 27–28",
+        theme: "GitOps with ArgoCD",
+        daily: [
+          { day: "Mon W27", task: "What is GitOps? Git as the single source of truth for infra and app state" },
+          { day: "Tue W27", task: "Install ArgoCD in your EKS cluster. Access the UI" },
+          { day: "Wed W27", task: "Create an ArgoCD Application pointing to your Helm chart in GitHub" },
+          { day: "Thu W27", task: "ArgoCD auto-sync: change a value in Git → ArgoCD detects and deploys it" },
+          { day: "Fri W27", task: "App of Apps pattern: manage multiple services with one ArgoCD root app" },
+          { day: "Mon W28", task: "Blue/Green deployments: two environments, switch traffic between them" },
+          { day: "Wed W28", task: "Canary deployments: route 10% of traffic to new version, then 100%" },
+          { day: "Fri W28", task: "Review Month 7. Your pipeline is now fully automated end-to-end" },
+        ],
+      },
+    ],
+    resources: ["GitHub Actions Docs (docs.github.com/actions)", "ArgoCD Docs (argo-cd.readthedocs.io)", "GitOps with ArgoCD — TechWorld with Nana (YouTube)"],
+    milestone: "Full CI/CD pipeline: push code → auto-test → build → deploy to K8s via GitOps",
+  },
+  {
+    id: 6,
+    title: "MONITORING & AZURE",
+    duration: "Months 8–9",
+    color: "#10b981",
+    icon: "◉",
+    tagline: "Observe your systems. Learn Azure. Get hired.",
+    weeks: [
+      {
+        week: "Week 29–32",
+        theme: "Monitoring Stack (Prometheus + Grafana)",
+        daily: [
+          { day: "Week 29 Mon", task: "Install kube-prometheus-stack via Helm. Explore Prometheus UI" },
+          { day: "Week 29 Wed", task: "Instrument your Java app with Micrometer. Expose /actuator/prometheus endpoint" },
+          { day: "Week 29 Fri", task: "Grafana: import dashboards. Build a custom dashboard for your app metrics" },
+          { day: "Week 30 Mon", task: "Alertmanager: set up alerts for high CPU, error rates, pod restarts" },
+          { day: "Week 30 Wed", task: "Log aggregation with Loki. Ship logs from all pods to Loki, query in Grafana" },
+          { day: "Week 30 Fri", task: "Distributed tracing with Jaeger or Tempo: trace a request across services" },
+          { day: "Week 31", task: "SLOs and SLAs: define availability and latency SLOs for your Java service" },
+          { day: "Week 32", task: "Incident response practice: deliberately break things. Find issues using your monitoring" },
+        ],
+      },
+      {
+        week: "Week 33–36",
+        theme: "Microsoft Azure",
+        daily: [
+          { day: "Week 33 Mon", task: "Create Azure free account. Explore portal. Understand: subscriptions, resource groups" },
+          { day: "Week 33 Wed", task: "AZ-900 study: Azure core services — compute, storage, networking, databases" },
+          { day: "Week 33 Fri", task: "Azure VMs, Azure Container Apps, Azure Kubernetes Service (AKS)" },
+          { day: "Week 34 Mon", task: "Azure Blob Storage, Azure SQL. Compare to AWS S3 and RDS" },
+          { day: "Week 34 Wed", task: "Azure DevOps: pipelines, repos, boards. CI/CD on Azure" },
+          { day: "Week 34 Fri", task: "Deploy your Java app to AKS. This should feel familiar after EKS" },
+          { day: "Week 35", task: "AZ-900 practice exams. Study: pricing, SLAs, compliance, identity (Azure AD)" },
+          { day: "Week 36", task: "Take AZ-900 exam. You now have AWS CCP + CKA + AZ-900 on your CV" },
+        ],
+      },
+    ],
+    resources: ["Prometheus Docs (prometheus.io)", "Grafana Docs (grafana.com/docs)", "John Savill Azure AZ-900 (YouTube — free full course)", "Azure Free Tier (azure.microsoft.com/free)"],
+    milestone: "3 certifications earned. Full observability stack. App running on both AWS and Azure",
+  },
+  {
+    id: 7,
+    title: "JOB READY",
+    duration: "Months 10–12",
+    color: "#f97316",
+    icon: "★",
+    tagline: "Polish, project, and land the role",
+    weeks: [
+      {
+        week: "Week 37–40",
+        theme: "Capstone Project",
+        daily: [
+          { day: "Goal", task: "Build one impressive end-to-end project that shows EVERYTHING. This is your portfolio centerpiece" },
+          { day: "Week 37", task: "Project idea: E-commerce backend in Java (Spring Boot) with Products, Orders, Users APIs" },
+          { day: "Week 38", task: "Containerize it. Full docker-compose for local dev. Push to ECR" },
+          { day: "Week 39", task: "Kubernetes manifests + Helm chart. Deploy to EKS with autoscaling" },
+          { day: "Week 40", task: "Full CI/CD pipeline. Monitoring with Prometheus/Grafana. Terraform for all infra" },
+        ],
+      },
+      {
+        week: "Week 41–44",
+        theme: "Job Search & Interview Prep",
+        daily: [
+          { day: "Week 41 Mon", task: "LinkedIn: update with all 3 certs, GitHub link, skills. Write a strong summary" },
+          { day: "Week 41 Wed", task: "Resume: list projects with impact (e.g., 'reduced deployment time by 80% with CI/CD')" },
+          { day: "Week 41 Fri", task: "Apply to 5 junior DevOps/cloud roles. Keep a spreadsheet of applications" },
+          { day: "Week 42", task: "Interview prep: explain Docker vs VM, K8s architecture, CI/CD flow, AWS services" },
+          { day: "Week 43", task: "Practice: draw system architecture diagrams on paper. Interviewers love this" },
+          { day: "Week 44", task: "Mock interviews: use Pramp or ask a peer. Record yourself explaining concepts" },
+        ],
+      },
+    ],
+    resources: ["Your GitHub portfolio (most important)", "LinkedIn (update weekly)", "Glassdoor/LinkedIn jobs (DevOps Engineer, Cloud Engineer, Platform Engineer)", "Roadmap.sh/devops — confirm you've covered everything"],
+    milestone: "🎯 Job offer as Junior DevOps / Cloud Engineer",
+  },
+];
+
+const certifications = [
+  { name: "AWS Cloud Practitioner", month: "Month 4", color: "#f59e0b", code: "CCP" },
+  { name: "Certified Kubernetes Administrator", month: "Month 6", color: "#8b5cf6", code: "CKA" },
+  { name: "Azure Fundamentals", month: "Month 9", color: "#10b981", code: "AZ-900" },
+];
+
+function Roadmap() {
+  const [activePhase, setActivePhase] = React.useState(0);
+  const [expandedWeek, setExpandedWeek] = React.useState(null);
+  const [checkedTasks, setCheckedTasks] = React.useState({});
+
+  const phase = phases[activePhase];
+
+  const toggleTask = (weekIdx, dayIdx) => {
+    const key = `${activePhase}-${weekIdx}-${dayIdx}`;
+    setCheckedTasks(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const getPhaseProgress = (phaseIdx) => {
+    const p = phases[phaseIdx];
+    let total = 0, done = 0;
+    p.weeks.forEach((w, wi) => {
+      w.daily.forEach((_, di) => {
+        total++;
+        if (checkedTasks[`${phaseIdx}-${wi}-${di}`]) done++;
+      });
+    });
+    return total > 0 ? Math.round((done / total) * 100) : 0;
+  };
+
+  return (
+    <div style={{
+      fontFamily: "'Courier New', monospace",
+      background: "#0a0a0f",
+      minHeight: "100vh",
+      color: "#e2e8f0",
+    }}>
+      {/* Header */}
+      <div style={{
+        background: "linear-gradient(135deg, #0a0a0f 0%, #0f172a 50%, #0a0a0f 100%)",
+        borderBottom: "1px solid #1e293b",
+        padding: "32px 24px 24px",
+        textAlign: "center",
+        position: "relative",
+        overflow: "hidden",
+      }}>
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+          backgroundImage: "radial-gradient(circle at 20% 50%, rgba(0,255,136,0.05) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(139,92,246,0.05) 0%, transparent 50%)",
+        }} />
+        <div style={{ fontSize: "11px", letterSpacing: "4px", color: "#64748b", marginBottom: "8px" }}>
+          WARREN JOE ODERA · MSc INFORMATION SYSTEMS · USIU-AFRICA
+        </div>
+        <h1 style={{
+          fontSize: "clamp(20px, 5vw, 40px)",
+          fontWeight: "900",
+          margin: "0 0 8px",
+          letterSpacing: "-1px",
+          background: "linear-gradient(90deg, #00ff88, #0ea5e9, #8b5cf6)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }}>
+          CLOUD / DEVOPS MASTERY ROADMAP
+        </h1>
+        <div style={{ fontSize: "13px", color: "#64748b", letterSpacing: "2px" }}>
+          6–12 MONTHS · ZERO TO JUNIOR ENGINEER · TICK OFF TASKS AS YOU GO
+        </div>
+        <div style={{ display: "flex", gap: "12px", justifyContent: "center", marginTop: "20px", flexWrap: "wrap" }}>
+          {certifications.map(cert => (
+            <div key={cert.code} style={{
+              border: `1px solid ${cert.color}40`,
+              background: `${cert.color}10`,
+              borderRadius: "4px",
+              padding: "6px 14px",
+              fontSize: "11px",
+              letterSpacing: "1px",
+              color: cert.color,
+            }}>
+              🏆 {cert.code} · {cert.month}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Phase selector */}
+      <div style={{
+        display: "flex",
+        overflowX: "auto",
+        padding: "16px",
+        gap: "8px",
+        borderBottom: "1px solid #1e293b",
+        scrollbarWidth: "none",
+      }}>
+        {phases.map((p, i) => {
+          const progress = getPhaseProgress(i);
+          return (
+            <button
+              key={i}
+              onClick={() => { setActivePhase(i); setExpandedWeek(null); }}
+              style={{
+                flex: "0 0 auto",
+                background: activePhase === i ? `${p.color}20` : "transparent",
+                border: `1px solid ${activePhase === i ? p.color : "#1e293b"}`,
+                borderRadius: "4px",
+                padding: "10px 14px",
+                cursor: "pointer",
+                color: activePhase === i ? p.color : "#64748b",
+                fontSize: "10px",
+                letterSpacing: "1px",
+                fontFamily: "'Courier New', monospace",
+                transition: "all 0.2s",
+                whiteSpace: "nowrap",
+                position: "relative",
+              }}
+            >
+              <span style={{ marginRight: "5px" }}>{p.icon}</span>
+              {p.title}
+              {progress > 0 && (
+                <span style={{
+                  marginLeft: "6px",
+                  background: p.color,
+                  color: "#000",
+                  borderRadius: "3px",
+                  padding: "1px 5px",
+                  fontSize: "9px",
+                  fontWeight: "700",
+                }}>{progress}%</span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Main content */}
+      <div style={{ padding: "24px 16px", maxWidth: "900px", margin: "0 auto" }}>
+
+        {/* Phase header */}
+        <div style={{ borderLeft: `3px solid ${phase.color}`, paddingLeft: "20px", marginBottom: "24px" }}>
+          <div style={{ fontSize: "11px", color: phase.color, letterSpacing: "2px", marginBottom: "4px" }}>
+            PHASE {phase.id} · {phase.duration}
+          </div>
+          <h2 style={{ fontSize: "26px", fontWeight: "900", margin: "0 0 4px", color: "#f1f5f9" }}>
+            {phase.icon} {phase.title}
+          </h2>
+          <div style={{ color: "#64748b", fontSize: "13px" }}>{phase.tagline}</div>
+          <div style={{ marginTop: "10px", background: "#1e293b", borderRadius: "2px", height: "4px", overflow: "hidden" }}>
+            <div style={{
+              height: "100%",
+              width: `${getPhaseProgress(activePhase)}%`,
+              background: phase.color,
+              transition: "width 0.4s ease",
+              borderRadius: "2px",
+            }} />
+          </div>
+          <div style={{ fontSize: "10px", color: "#475569", marginTop: "4px" }}>
+            {getPhaseProgress(activePhase)}% complete — tick tasks below as you finish them
+          </div>
+        </div>
+
+        {/* Weeks */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {phase.weeks.map((week, wi) => (
+            <div key={wi} style={{
+              border: `1px solid ${expandedWeek === wi ? phase.color + "60" : "#1e293b"}`,
+              borderRadius: "6px",
+              overflow: "hidden",
+              transition: "border-color 0.2s",
+            }}>
+              <button
+                onClick={() => setExpandedWeek(expandedWeek === wi ? null : wi)}
+                style={{
+                  width: "100%",
+                  background: expandedWeek === wi ? `${phase.color}10` : "#0f172a",
+                  border: "none",
+                  padding: "14px 20px",
+                  cursor: "pointer",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  fontFamily: "'Courier New', monospace",
+                }}
+              >
+                <div style={{ textAlign: "left" }}>
+                  <div style={{ fontSize: "10px", color: phase.color, letterSpacing: "2px", marginBottom: "2px" }}>
+                    {week.week}
+                  </div>
+                  <div style={{ fontSize: "14px", fontWeight: "700", color: "#f1f5f9" }}>
+                    {week.theme}
+                  </div>
+                </div>
+                <div style={{
+                  color: phase.color, fontSize: "18px",
+                  transform: expandedWeek === wi ? "rotate(180deg)" : "rotate(0)",
+                  transition: "transform 0.2s",
+                }}>▾</div>
+              </button>
+
+              {expandedWeek === wi && (
+                <div style={{ background: "#080c14", padding: "4px 0 8px" }}>
+                  {week.daily.map((d, di) => {
+                    const key = `${activePhase}-${wi}-${di}`;
+                    const done = checkedTasks[key];
+                    return (
+                      <div
+                        key={di}
+                        onClick={() => toggleTask(wi, di)}
+                        style={{
+                          display: "flex",
+                          gap: "12px",
+                          padding: "10px 20px",
+                          borderBottom: di < week.daily.length - 1 ? "1px solid #0f172a" : "none",
+                          alignItems: "flex-start",
+                          cursor: "pointer",
+                          background: done ? `${phase.color}08` : "transparent",
+                          transition: "background 0.2s",
+                        }}
+                      >
+                        <div style={{
+                          flex: "0 0 18px",
+                          width: "18px",
+                          height: "18px",
+                          border: `1px solid ${done ? phase.color : "#334155"}`,
+                          borderRadius: "3px",
+                          background: done ? phase.color : "transparent",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "11px",
+                          color: "#000",
+                          marginTop: "1px",
+                          flexShrink: 0,
+                          transition: "all 0.2s",
+                        }}>
+                          {done ? "✓" : ""}
+                        </div>
+                        <div style={{ flex: "0 0 64px", fontSize: "10px", letterSpacing: "1px", color: phase.color, paddingTop: "2px", fontWeight: "700" }}>
+                          {d.day}
+                        </div>
+                        <div style={{ fontSize: "13px", color: done ? "#475569" : "#94a3b8", lineHeight: "1.5", textDecoration: done ? "line-through" : "none", transition: "all 0.2s" }}>
+                          {d.task}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Resources */}
+        <div style={{ marginTop: "20px", border: "1px solid #1e293b", borderRadius: "6px", padding: "18px", background: "#0f172a" }}>
+          <div style={{ fontSize: "11px", letterSpacing: "2px", color: "#64748b", marginBottom: "10px" }}>📚 RESOURCES</div>
+          {phase.resources.map((r, i) => (
+            <div key={i} style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "6px" }}>
+              <span style={{ color: phase.color, marginRight: "8px" }}>→</span>{r}
+            </div>
+          ))}
+        </div>
+
+        {/* Milestone */}
+        <div style={{ marginTop: "12px", border: `1px solid ${phase.color}40`, borderRadius: "6px", padding: "18px", background: `${phase.color}08` }}>
+          <div style={{ fontSize: "11px", letterSpacing: "2px", color: phase.color, marginBottom: "8px" }}>🎯 PHASE MILESTONE</div>
+          <div style={{ fontSize: "14px", color: "#e2e8f0", lineHeight: "1.6" }}>{phase.milestone}</div>
+        </div>
+
+        {/* Nav */}
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "24px", gap: "12px" }}>
+          {activePhase > 0 && (
+            <button onClick={() => { setActivePhase(activePhase - 1); setExpandedWeek(null); window.scrollTo(0,0); }}
+              style={{ background: "transparent", border: `1px solid ${phases[activePhase-1].color}60`, color: phases[activePhase-1].color, padding: "10px 20px", cursor: "pointer", borderRadius: "4px", fontFamily: "'Courier New', monospace", fontSize: "12px", letterSpacing: "1px" }}>
+              ← {phases[activePhase - 1].title}
+            </button>
+          )}
+          <div style={{ flex: 1 }} />
+          {activePhase < phases.length - 1 && (
+            <button onClick={() => { setActivePhase(activePhase + 1); setExpandedWeek(null); window.scrollTo(0,0); }}
+              style={{ background: `${phases[activePhase+1].color}15`, border: `1px solid ${phases[activePhase+1].color}`, color: phases[activePhase+1].color, padding: "10px 20px", cursor: "pointer", borderRadius: "4px", fontFamily: "'Courier New', monospace", fontSize: "12px", letterSpacing: "1px" }}>
+              {phases[activePhase + 1].title} →
+            </button>
+          )}
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: "28px", fontSize: "10px", color: "#1e293b", letterSpacing: "2px", paddingBottom: "32px" }}>
+          STUDY 1–2 HRS/DAY · CONSISTENCY BEATS INTENSITY · BUILD EVERYTHING
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Roadmap />);
+  </script>
+</body>
+</html>
